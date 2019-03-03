@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.jedrula.moviegeek.ui.home.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/popularFragment"
+        android:name="com.jedrula.moviegeek.ui.popular.PopularFragment"
+        android:label="popular_fragment"
+        tools:layout="@layout/popular_fragment" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.jedrula.moviegeek.ui.info.InfoFragment"
+        android:label="info_fragment"
+        tools:layout="@layout/info_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.jedrula.moviegeek.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>
