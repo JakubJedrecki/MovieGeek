@@ -1,7 +1,10 @@
 package com.jedrula.moviegeek.data.db.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.jedrula.moviegeek.data.db.typeconverters.GenreConverter
 
 @Entity(tableName = "movie")
 data class Movie(
@@ -11,8 +14,10 @@ data class Movie(
     @SerializedName("belongs_to_collection")
     val belongsToCollection: Any,
     val budget: Int,
+    @TypeConverters(GenreConverter::class)
     val genres: List<Genre>,
     val homepage: String,
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     @SerializedName("imdb_id")
     val imdbId: String,
