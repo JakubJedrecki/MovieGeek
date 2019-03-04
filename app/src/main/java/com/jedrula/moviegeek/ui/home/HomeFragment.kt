@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.jedrula.moviegeek.R
-import com.jedrula.moviegeek.data.TmdbApiService
+import com.jedrula.moviegeek.data.network.ConnectivityInterceptorImpl
+import com.jedrula.moviegeek.data.network.MovieDataSourceImpl
+import com.jedrula.moviegeek.data.network.TmdbApiService
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,10 +36,15 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
             // TODO: Use the ViewModel
 
-        val tmbdApiService = TmdbApiService()
+        val tmdbApiService = TmdbApiService(ConnectivityInterceptorImpl(this.context!!))
+        val movieDataSource = MovieDataSourceImpl(tmdbApiService)
+
+        movieDataSource.downloadedMovie.observe(this, Observer {
+            home_tv.text = it.toString()
+        })
+
         GlobalScope.launch(Dispatchers.Main) {
-            val movieResponse = tmbdApiService.getMovie(550).await()
-            home_tv.text = movieResponse.toString()
+            movieDataSource.fetchMovie(550)
         }
     }
 

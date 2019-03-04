@@ -1,4 +1,4 @@
-package com.jedrula.moviegeek.data
+package com.jedrula.moviegeek.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jedrula.moviegeek.data.db.entity.Movie
@@ -22,7 +22,9 @@ interface TmdbApiService {
     ): Deferred<Movie>
 
     companion object {
-        operator fun invoke(): TmdbApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): TmdbApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request()
                     .url()
@@ -39,6 +41,7 @@ interface TmdbApiService {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()
