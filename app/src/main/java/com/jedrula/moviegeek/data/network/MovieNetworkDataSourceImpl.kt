@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import com.jedrula.moviegeek.data.db.entity.Movie
 import com.jedrula.moviegeek.internal.NoConnectivityException
 
-class MovieDataSourceImpl(
+class MovieNetworkDataSourceImpl(
     private val tmdbApiService: TmdbApiService
-) : MovieDataSource {
+) : MovieNetworkDataSource {
 
     private val _downloadedMovie = MutableLiveData<Movie>()
     override val downloadedMovie: LiveData<Movie>

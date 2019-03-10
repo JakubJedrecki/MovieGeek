@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.jedrula.moviegeek.R
 import com.jedrula.moviegeek.data.network.ConnectivityInterceptorImpl
-import com.jedrula.moviegeek.data.network.MovieDataSourceImpl
+import com.jedrula.moviegeek.data.network.MovieNetworkDataSourceImpl
 import com.jedrula.moviegeek.data.network.TmdbApiService
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
             // TODO: Use the ViewModel
 
         val tmdbApiService = TmdbApiService(ConnectivityInterceptorImpl(this.context!!))
-        val movieDataSource = MovieDataSourceImpl(tmdbApiService)
+        val movieDataSource = MovieNetworkDataSourceImpl(tmdbApiService)
 
         movieDataSource.downloadedMovie.observe(this, Observer {
             home_tv.text = it.toString()
