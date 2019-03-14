@@ -3,7 +3,7 @@ package com.jedrula.moviegeek.data.repository
 import androidx.lifecycle.LiveData
 import com.jedrula.moviegeek.data.db.dao.MovieDao
 import com.jedrula.moviegeek.data.db.entity.Movie
-import com.jedrula.moviegeek.data.network.MovieNetworkDataSource
+import com.jedrula.moviegeek.data.network.interfaces.MovieNetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class MovieRepositoryImpl(
 
     override suspend fun getMovie(movieId: Int): LiveData<Movie> {
         return withContext(Dispatchers.IO) {
-            initMovieData()
+            initMovieData(movieId)
             return@withContext movieDao.getMovie(movieId)
         }
     }
@@ -34,10 +34,10 @@ class MovieRepositoryImpl(
         }
     }
 
-    private suspend fun initMovieData() {
+    private suspend fun initMovieData(movieId: Int) {
         //todo remove minusdays
         if(isFetchNeeded(ZonedDateTime.now().minusDays(2)))
-            fetchMovie(550)
+            fetchMovie(movieId)
     }
 
     private suspend fun fetchMovie(movieId: Int) {

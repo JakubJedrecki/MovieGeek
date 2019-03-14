@@ -2,6 +2,7 @@ package com.jedrula.moviegeek.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jedrula.moviegeek.data.db.entity.Movie
+import com.jedrula.moviegeek.data.network.interfaces.ConnectivityInterceptor
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

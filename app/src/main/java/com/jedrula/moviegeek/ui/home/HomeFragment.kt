@@ -4,24 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.jedrula.moviegeek.R
-import com.jedrula.moviegeek.data.network.ConnectivityInterceptorImpl
-import com.jedrula.moviegeek.data.network.MovieNetworkDataSourceImpl
-import com.jedrula.moviegeek.data.network.TmdbApiService
+import com.jedrula.moviegeek.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class HomeFragment : Fragment() {
+class HomeFragment : ScopedFragment(), KodeinAware {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
+    override val kodein by kodein()
+    private val viewModelFactory: HomeViewModelFactory by instance()
     private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
@@ -33,19 +29,33 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-            // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(HomeViewModel::class.java)
 
-        val tmdbApiService = TmdbApiService(ConnectivityInterceptorImpl(this.context!!))
-        val movieDataSource = MovieNetworkDataSourceImpl(tmdbApiService)
-
-        movieDataSource.downloadedMovie.observe(this, Observer {
-            home_tv.text = it.toString()
-        })
-
-        GlobalScope.launch(Dispatchers.Main) {
-            movieDataSource.fetchMovie(550)
-        }
+        bindUI()
+//        val tmdbApiService = TmdbApiService(
+//            ConnectivityInterceptorImpl(
+//                this.context!!
+//            )
+//        )
+//        val movieDataSource =
+//            MovieNetworkDataSourceImpl(tmdbApiService)
+//
+//        movieDataSource.downloadedMovie.observe(this, Observer {
+//            home_tv.text = it.toString()
+//        })
+//
+//        GlobalScope.launch(Dispatchers.Main) {
+//            movieDataSource.fetchMovie(550)
+//        }
     }
 
+    private fun bindUI() = launch {
+        val movie = viewModel.movie.await()
+        movie.observe(this@HomeFragment, Observer {
+            if(it == null) return@Observer
+
+            home_tv.text = it.toString()
+        })
+    }
 }

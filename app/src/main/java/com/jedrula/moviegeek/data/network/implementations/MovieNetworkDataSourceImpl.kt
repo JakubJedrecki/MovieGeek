@@ -1,9 +1,11 @@
-package com.jedrula.moviegeek.data.network
+package com.jedrula.moviegeek.data.network.implementations
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jedrula.moviegeek.data.db.entity.Movie
+import com.jedrula.moviegeek.data.network.TmdbApiService
+import com.jedrula.moviegeek.data.network.interfaces.MovieNetworkDataSource
 import com.jedrula.moviegeek.internal.NoConnectivityException
 
 class MovieNetworkDataSourceImpl(

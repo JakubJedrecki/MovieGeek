@@ -1,4 +1,4 @@
-package com.jedrula.moviegeek.data.network
+package com.jedrula.moviegeek.data.network.interfaces
 
 import androidx.lifecycle.LiveData
 import com.jedrula.moviegeek.data.db.entity.Movie

@@ -1,4 +1,4 @@
-package com.jedrula.moviegeek.data.network
+package com.jedrula.moviegeek.data.network.interfaces
 
 import okhttp3.Interceptor
 

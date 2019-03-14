@@ -1,14 +1,14 @@
-package com.jedrula.moviegeek.data.network
+package com.jedrula.moviegeek.data.network.implementations
 
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.core.content.getSystemService
+import com.jedrula.moviegeek.data.network.interfaces.ConnectivityInterceptor
 import com.jedrula.moviegeek.internal.NoConnectivityException
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
 
-class ConnectivityInterceptorImpl(context: Context) : ConnectivityInterceptor {
+class ConnectivityInterceptorImpl(context: Context) :
+    ConnectivityInterceptor {
 
     private val appContext = context.applicationContext
 
