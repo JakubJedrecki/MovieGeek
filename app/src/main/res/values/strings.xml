@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My Movie Tracker</string>
+    <string name="app_name">Movie Geek</string>
+    <string name="txt_loading">Loading</string>
 </resources>
